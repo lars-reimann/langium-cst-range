@@ -1,6 +1,7 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
 import type { HelloWorldAstType, MemberAccess } from './generated/ast.js';
 import type { HelloWorldServices } from './hello-world-module.js';
+import { rangeToString } from 'langium/test';
 
 /**
  * Register custom validation checks.
@@ -22,7 +23,7 @@ export class HelloWorldValidator {
         if (node.$container?.$type === "Module") {
             accept(
                 'warning',
-                node.$cstNode?.text ?? '',
+                `${node.$cstNode?.text} - ${rangeToString(node.$cstNode?.range!)}`,
                 { node }
             );
         }
