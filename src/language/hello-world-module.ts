@@ -25,7 +25,7 @@ export type HelloWorldServices = LangiumServices & HelloWorldAddedServices
  */
 export const HelloWorldModule: Module<HelloWorldServices, PartialLangiumServices & HelloWorldAddedServices> = {
     validation: {
-        HelloWorldValidator: () => new HelloWorldValidator()
+        HelloWorldValidator: (services: HelloWorldServices) => new HelloWorldValidator(services)
     }
 };
 

@@ -1,4 +1,5 @@
-import type { ValidationAcceptor, ValidationChecks } from 'langium';
+import type { ValidationAcceptor, ValidationChecks} from 'langium';
+import { DocumentState } from 'langium';
 import type { HelloWorldAstType, MemberAccess } from './generated/ast.js';
 import type { HelloWorldServices } from './hello-world-module.js';
 import { rangeToString } from 'langium/test';
@@ -19,6 +20,12 @@ export function registerValidationChecks(services: HelloWorldServices) {
  * Implementation of custom validations.
  */
 export class HelloWorldValidator {
+    constructor(services: HelloWorldServices) {
+        services.shared.workspace.DocumentBuilder.onBuildPhase(DocumentState.IndexedContent, () => {
+            console.log([...services.shared.workspace.LangiumDocuments.all].map(it=>it.uri.toString()))
+        });
+    }
+
     checkSomething(node: MemberAccess, accept: ValidationAcceptor): void {
         if (node.$container?.$type === "Module") {
             accept(
